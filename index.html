@@ -60,6 +60,141 @@ const categories=[
 
 
 
+
+const physicsChapters = [
+  {
+    title: "১. ভৌত রাশি এবং পরিমাপ",
+    topics: "মৌলিক ও লব্ধ রাশি, একক, মাত্রা, ভার্নিয়ার স্কেল ও স্ক্রু গজ",
+    formula: "ঘনত্ব = ভর ÷ আয়তন",
+    q: "ঘনত্বের SI একক কোনটি?",
+    options: ["kg/m³", "m/s", "N/m", "J/s"],
+    answer: 0,
+    explain: "ঘনত্ব = ভর/আয়তন, তাই SI একক kg/m³।"
+  },
+  {
+    title: "২. গতি",
+    topics: "দূরত্ব, সরণ, দ্রুতি, বেগ, ত্বরণ ও গতি-লেখচিত্র",
+    formula: "দ্রুতি = দূরত্ব ÷ সময়; ত্বরণ = বেগের পরিবর্তন ÷ সময়",
+    q: "বেগের SI একক কোনটি?",
+    options: ["m/s", "m/s²", "kg/m³", "N"],
+    answer: 0,
+    explain: "বেগ হলো একক সময়ে সরণ; এর একক m/s।"
+  },
+  {
+    title: "৩. বল",
+    topics: "বল, জড়তা, ভরবেগ, নিউটনের সূত্র ও ক্রিয়া-প্রতিক্রিয়া",
+    formula: "F = ma; ভরবেগ p = mv",
+    q: "নিউটনের দ্বিতীয় সূত্র অনুযায়ী বল কত?",
+    options: ["F = ma", "F = m/a", "F = a/m", "F = mv"],
+    answer: 0,
+    explain: "বল = ভর × ত্বরণ।"
+  },
+  {
+    title: "৪. কাজ, ক্ষমতা ও শক্তি",
+    topics: "কাজ, গতিশক্তি, বিভবশক্তি, ক্ষমতা ও শক্তির সংরক্ষণ",
+    formula: "কাজ W = Fs (একই দিকে); গতিশক্তি = ½mv²",
+    q: "ক্ষমতার SI একক কোনটি?",
+    options: ["জুল", "ওয়াট", "নিউটন", "প্যাসকেল"],
+    answer: 1,
+    explain: "একক সময়ে কাজ করার হারকে ক্ষমতা বলে; একক ওয়াট।"
+  },
+  {
+    title: "৫. পদার্থের অবস্থা ও চাপ",
+    topics: "কঠিন, তরল ও গ্যাস; ঘনত্ব, চাপ ও তরলের চাপ",
+    formula: "চাপ P = F/A; তরলে P = ρgh (গেজ চাপ)",
+    q: "চাপের SI একক কোনটি?",
+    options: ["ওয়াট", "প্যাসকেল", "জুল", "কুলম্ব"],
+    answer: 1,
+    explain: "একক ক্ষেত্রফলে লম্বভাবে প্রযুক্ত বল হলো চাপ; একক প্যাসকেল।"
+  },
+  {
+    title: "৬. পদার্থের ওপর তাপের প্রভাব",
+    topics: "তাপমাত্রা, প্রসারণ, আপেক্ষিক তাপ, গলন ও বাষ্পীভবন",
+    formula: "Q = mcΔT (অবস্থা পরিবর্তন না হলে)",
+    q: "তাপের পরিমাণের SI একক কোনটি?",
+    options: ["জুল", "কেলভিন", "ওয়াট", "নিউটন"],
+    answer: 0,
+    explain: "তাপ শক্তির একটি রূপ; এর SI একক জুল।"
+  },
+  {
+    title: "৭. তরঙ্গ ও শব্দ",
+    topics: "অনুপ্রস্থ ও অনুদৈর্ঘ্য তরঙ্গ, কম্পাঙ্ক, তরঙ্গদৈর্ঘ্য ও শব্দ",
+    formula: "v = fλ",
+    q: "তরঙ্গের বেগের সম্পর্ক কোনটি?",
+    options: ["v = fλ", "v = f/λ", "v = λ/f", "v = f + λ"],
+    answer: 0,
+    explain: "তরঙ্গের বেগ = কম্পাঙ্ক × তরঙ্গদৈর্ঘ্য।"
+  },
+  {
+    title: "৮. আলোর প্রতিফলন",
+    topics: "প্রতিফলনের সূত্র, সমতল দর্পণ, গোলীয় দর্পণ ও প্রতিবিম্ব",
+    formula: "আপতন কোণ = প্রতিফলন কোণ",
+    q: "প্রতিফলনের সূত্র অনুযায়ী কোনটি সত্য?",
+    options: [
+      "আপতন কোণ = প্রতিফলন কোণ",
+      "আপতন কোণ সবসময় 90°",
+      "আলোর বেগ শূন্য",
+      "প্রতিফলন হয় না"
+    ],
+    answer: 0,
+    explain: "আপতন কোণ ও প্রতিফলন কোণ অভিলম্বের সাপেক্ষে সমান।"
+  },
+  {
+    title: "৯. আলোর প্রতিসরণ",
+    topics: "প্রতিসরণ, প্রতিসরাঙ্ক, লেন্স ও প্রতিবিম্ব গঠন",
+    formula: "প্রতিসরাঙ্ক n = শূন্যস্থানে আলোর বেগ ÷ মাধ্যমে আলোর বেগ",
+    q: "আলো এক মাধ্যম থেকে অন্য মাধ্যমে গেলে দিক পরিবর্তনের ঘটনাকে কী বলে?",
+    options: ["প্রতিফলন", "প্রতিসরণ", "ব্যতিচার", "কম্পন"],
+    answer: 1,
+    explain: "এক মাধ্যম থেকে অন্য মাধ্যমে যাওয়ার সময় আলোর দিক পরিবর্তনকে প্রতিসরণ বলে।"
+  },
+  {
+    title: "১০. স্থির বিদ্যুৎ",
+    topics: "বৈদ্যুতিক আধান, পরিবাহী, অপরিবাহী ও আধানের পারস্পরিক ক্রিয়া",
+    formula: "কুলম্বের সূত্র: F ∝ q₁q₂/r²",
+    q: "সমধর্মী আধান পরস্পরকে কী করে?",
+    options: ["আকর্ষণ", "বিকর্ষণ", "নিরপেক্ষ করে", "সবসময় গলিয়ে দেয়"],
+    answer: 1,
+    explain: "সমধর্মী আধান পরস্পরকে বিকর্ষণ করে।"
+  },
+  {
+    title: "১১. চল বিদ্যুৎ",
+    topics: "বিদ্যুৎ প্রবাহ, বিভব পার্থক্য, রোধ ও বৈদ্যুতিক বর্তনী",
+    formula: "V = IR; বৈদ্যুতিক ক্ষমতা P = VI",
+    q: "ওহমের সূত্র কোনটি?",
+    options: ["V = IR", "V = I/R", "I = VR", "R = VI"],
+    answer: 0,
+    explain: "তাপমাত্রা অপরিবর্তিত থাকলে বিভব পার্থক্য V = IR।"
+  },
+  {
+    title: "১২. বিদ্যুৎ প্রবাহের চৌম্বক ক্রিয়া",
+    topics: "চৌম্বক ক্ষেত্র, বিদ্যুৎবাহী তার, তড়িৎচুম্বক ও মোটরের ধারণা",
+    formula: "বিদ্যুৎ প্রবাহ চৌম্বক ক্ষেত্র সৃষ্টি করতে পারে",
+    q: "বিদ্যুৎবাহী তারের চারপাশে কী সৃষ্টি হয়?",
+    options: ["চৌম্বক ক্ষেত্র", "শুধু শব্দ", "শূন্যস্থান", "কোনো ক্ষেত্র নয়"],
+    answer: 0,
+    explain: "বিদ্যুৎ প্রবাহের চারপাশে চৌম্বক ক্ষেত্র সৃষ্টি হয়।"
+  },
+  {
+    title: "১৩. আধুনিক পদার্থবিজ্ঞান ও ইলেকট্রনিকস",
+    topics: "পরমাণুর ধারণা, তেজস্ক্রিয়তা, সেমিকন্ডাক্টর ও ইলেকট্রনিক যন্ত্র",
+    formula: "এই অধ্যায়ে বিভিন্ন ধারণা ও যন্ত্রের কার্যনীতি শেখা হবে",
+    q: "ট্রানজিস্টর কোন ক্ষেত্রে ব্যবহৃত হয়?",
+    options: ["সিগন্যাল নিয়ন্ত্রণ ও পরিবর্ধন", "শুধু ভর মাপা", "শুধু দৈর্ঘ্য মাপা", "শুধু তাপমাত্রা মাপা"],
+    answer: 0,
+    explain: "ট্রানজিস্টর ইলেকট্রনিক বর্তনীতে সিগন্যাল নিয়ন্ত্রণ ও পরিবর্ধনে ব্যবহৃত হয়।"
+  },
+  {
+    title: "১৪. জীবন রক্ষায় পদার্থবিজ্ঞান",
+    topics: "চিকিৎসায় পদার্থবিজ্ঞান, রোগ নির্ণয়ের যন্ত্র ও নিরাপদ ব্যবহার",
+    formula: "প্রয়োগভেদে বিভিন্ন ভৌত নীতি ব্যবহৃত হয়",
+    q: "শরীরের ভেতরের হাড়ের ছবি তুলতে সাধারণত কোনটি ব্যবহৃত হয়?",
+    options: ["এক্স-রে", "কম্পাস", "অ্যামিটার", "থার্মোমিটার"],
+    answer: 0,
+    explain: "এক্স-রে চিকিৎসায় হাড় ও শরীরের কিছু অভ্যন্তরীণ অংশের ছবি তুলতে ব্যবহৃত হয়।"
+  }
+];
+
 $("categories").innerHTML = categories.map(c => `
   <article class="category">
     <details>
@@ -67,18 +202,49 @@ $("categories").innerHTML = categories.map(c => `
         <h3>${c.name}</h3>
         <p class="muted">বিষয় দেখতে চাপ দাও</p>
       </summary>
-      ${c.subjects.map(s => `
-        <details class="category">
-          <summary>${s}</summary>
-          <p class="muted">
-            এই বিষয়ের অধ্যায় ও পড়াশোনার উপকরণ
-            পরবর্তী ধাপে যোগ করা হবে।
-          </p>
-        </details>
-      `).join("")}
+      ${c.subjects.map(subject => {
+        if (c.name === "Class 9–10" && subject === "Physics") {
+          return `
+            <details class="category">
+              <summary>Physics — অধ্যায়সমূহ</summary>
+              ${physicsChapters.map((ch, i) => `
+                <details class="category">
+                  <summary>${ch.title}</summary>
+                  <p><strong>এই অধ্যায়ে শিখবে</strong></p>
+                  <p class="muted">${ch.topics}</p>
+                  <p><strong>সূত্র / মূল ধারণা</strong></p>
+                  <p class="muted">${ch.formula}</p>
+                  <div class="category">
+                    <p><strong>অনুশীলনী MCQ</strong></p>
+                    <p>${ch.q}</p>
+                    ${ch.options.map((option, j) => `
+                      <p>${String.fromCharCode(65 + j)}. ${option}</p>
+                    `).join("")}
+                    <details>
+                      <summary>সঠিক উত্তর ও ব্যাখ্যা দেখো</summary>
+                      <p><strong>${String.fromCharCode(65 + ch.answer)}. ${ch.options[ch.answer]}</strong></p>
+                      <p class="muted">${ch.explain}</p>
+                    </details>
+                  </div>
+                </details>
+              `).join("")}
+            </details>
+          `;
+        }
+
+        return `
+          <details class="category">
+            <summary>${subject}</summary>
+            <p class="muted">
+              এই বিষয়ের অধ্যায় ও পড়াশোনার উপকরণ পরবর্তী ধাপে যোগ করা হবে।
+            </p>
+          </details>
+        `;
+      }).join("")}
     </details>
   </article>
 `).join("");
+
 
 function msg(el,t,err=false){el.textContent=t;el.classList.remove("hidden");el.classList.toggle("error",err)}
 function mode(v){signup=v;$("nameWrap").classList.toggle("hidden",!v);$("regName").required=v;$("authTitle").textContent=v?"Create your account":"Welcome back";$("submit").textContent=v?"Create Account":"Login";$("password").autocomplete=v?"new-password":"current-password";$("authMsg").classList.add("hidden");$("loginTab").classList.toggle("secondary",v);$("registerTab").classList.toggle("secondary",!v)}
