@@ -24,8 +24,6 @@ const SUPABASE_URL="https://ixtbkyipwnpgwgmnuhxd.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_inkcD-MEmL54aorSX5Ia4Q_xajphm0V";
 const $=id=>document.getElementById(id);let sb=null,user=null,profile={},signup=false;
 const categories=[
-
-const learningData = [
   {
     name: "Class 6–7",
     subjects: ["Mathematics", "Science", "English", "ICT"]
@@ -60,25 +58,6 @@ const learningData = [
   }
 ];
 
-$("categories").innerHTML = learningData.map(item => `
-  <article class="category">
-    <details>
-      <summary>
-        <h3>${item.name}</h3>
-        <p class="muted">বিষয় দেখতে এখানে চাপ দাও</p>
-      </summary>
-      ${item.subjects.map(subject => `
-        <details class="category">
-          <summary>${subject}</summary>
-          <p class="muted">
-            এই বিষয়ের অধ্যায় ও পড়াশোনার উপকরণ
-            পরবর্তী ধাপে যোগ করা হবে।
-          </p>
-        </details>
-      `).join("")}
-    </details>
-  </article>
-`).join("");
 
 $("categories").innerHTML=categories.map(c=>`<article class="category"><h3>${c[0]}</h3>${c.slice(1).map(s=>`<p class="muted">${s}</p>`).join("")}</article>`).join("");
 function msg(el,t,err=false){el.textContent=t;el.classList.remove("hidden");el.classList.toggle("error",err)}
