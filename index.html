@@ -59,7 +59,27 @@ const categories=[
 ];
 
 
-$("categories").innerHTML=categories.map(c=>`<article class="category"><h3>${c[0]}</h3>${c.slice(1).map(s=>`<p class="muted">${s}</p>`).join("")}</article>`).join("");
+
+$("categories").innerHTML = categories.map(c => `
+  <article class="category">
+    <details>
+      <summary>
+        <h3>${c.name}</h3>
+        <p class="muted">বিষয় দেখতে চাপ দাও</p>
+      </summary>
+      ${c.subjects.map(s => `
+        <details class="category">
+          <summary>${s}</summary>
+          <p class="muted">
+            এই বিষয়ের অধ্যায় ও পড়াশোনার উপকরণ
+            পরবর্তী ধাপে যোগ করা হবে।
+          </p>
+        </details>
+      `).join("")}
+    </details>
+  </article>
+`).join("");
+
 function msg(el,t,err=false){el.textContent=t;el.classList.remove("hidden");el.classList.toggle("error",err)}
 function mode(v){signup=v;$("nameWrap").classList.toggle("hidden",!v);$("regName").required=v;$("authTitle").textContent=v?"Create your account":"Welcome back";$("submit").textContent=v?"Create Account":"Login";$("password").autocomplete=v?"new-password":"current-password";$("authMsg").classList.add("hidden");$("loginTab").classList.toggle("secondary",v);$("registerTab").classList.toggle("secondary",!v)}
 function showDashboard(){ $("auth").classList.add("hidden");$("dashboard").classList.remove("hidden");$("logout").classList.remove("hidden")}
