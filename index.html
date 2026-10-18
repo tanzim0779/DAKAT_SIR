@@ -24,14 +24,62 @@ const SUPABASE_URL="https://ixtbkyipwnpgwgmnuhxd.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_inkcD-MEmL54aorSX5Ia4Q_xajphm0V";
 const $=id=>document.getElementById(id);let sb=null,user=null,profile={},signup=false;
 const categories=[
-["Class 6–7","Math: classes/units; chapter-wise + whole-syllabus exams","Physics: classes/units; chapter-wise + whole-syllabus exams","Extra Care: Olympiad, programming, technology, world"],
-["Class 8","Math: classes/units; chapter-wise + whole-syllabus exams","Physics: classes/units; chapter-wise + whole-syllabus exams","Extra Care: Olympiad, programming, science, technology, world"],
-["Class 9–10","Math, Physics, Chemistry, ICT: classes/units + chapter-wise and whole-syllabus exams","Extra Care: Olympiad, programming, science, technology, world"],
-["SSC","Physics • Chemistry • Math • ICT • SSC exam preparation"],
-["Class 11–12","Math, Physics, Chemistry, ICT: classes/units + chapter-wise and whole-syllabus exams","Extra Care: Olympiad, programming, science, technology, world"],
-["HSC","Physics • Chemistry • Math • ICT • HSC exam preparation"],
-["Admission","BUET • DU • DCU • CUET • KUET • RUET • SUST • HSTU • AGRI • DUET • IUT • JU • JNU • RU • CoU • CU • KU • GST"],
-["Others","BCS • Viva preparation • Job preparation • IELTS • Starting a business"]];
+
+const learningData = [
+  {
+    name: "Class 6–7",
+    subjects: ["Mathematics", "Science", "English", "ICT"]
+  },
+  {
+    name: "Class 8",
+    subjects: ["Mathematics", "Science", "English", "ICT"]
+  },
+  {
+    name: "Class 9–10",
+    subjects: ["Mathematics", "Physics", "Chemistry", "Biology", "ICT"]
+  },
+  {
+    name: "SSC",
+    subjects: ["Mathematics", "Physics", "Chemistry", "Biology", "ICT"]
+  },
+  {
+    name: "Class 11–12",
+    subjects: ["Physics", "Chemistry", "Mathematics", "Biology", "ICT"]
+  },
+  {
+    name: "HSC",
+    subjects: ["Physics", "Chemistry", "Mathematics", "Biology", "ICT"]
+  },
+  {
+    name: "Admission",
+    subjects: ["Engineering", "University", "Medical", "General Knowledge"]
+  },
+  {
+    name: "Others",
+    subjects: ["Programming", "Technology", "Career Skills", "English"]
+  }
+];
+
+$("categories").innerHTML = learningData.map(item => `
+  <article class="category">
+    <details>
+      <summary>
+        <h3>${item.name}</h3>
+        <p class="muted">বিষয় দেখতে এখানে চাপ দাও</p>
+      </summary>
+      ${item.subjects.map(subject => `
+        <details class="category">
+          <summary>${subject}</summary>
+          <p class="muted">
+            এই বিষয়ের অধ্যায় ও পড়াশোনার উপকরণ
+            পরবর্তী ধাপে যোগ করা হবে।
+          </p>
+        </details>
+      `).join("")}
+    </details>
+  </article>
+`).join("");
+
 $("categories").innerHTML=categories.map(c=>`<article class="category"><h3>${c[0]}</h3>${c.slice(1).map(s=>`<p class="muted">${s}</p>`).join("")}</article>`).join("");
 function msg(el,t,err=false){el.textContent=t;el.classList.remove("hidden");el.classList.toggle("error",err)}
 function mode(v){signup=v;$("nameWrap").classList.toggle("hidden",!v);$("regName").required=v;$("authTitle").textContent=v?"Create your account":"Welcome back";$("submit").textContent=v?"Create Account":"Login";$("password").autocomplete=v?"new-password":"current-password";$("authMsg").classList.add("hidden");$("loginTab").classList.toggle("secondary",v);$("registerTab").classList.toggle("secondary",!v)}
