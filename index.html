@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101b35">
+  <title>DAKAT SIR | Learn Beyond Limits</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --navy: #101b35;
+      --blue: #315efb;
+      --gold: #f4bd50;
+      --paper: #f5f7fc;
+      --text: #17223b;
+      --muted: #68748b;
+      --border: #e3e8f2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, Arial, sans-serif;
+      background: var(--paper);
+      color: var(--text);
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    .topbar {
+      background: var(--navy);
+      color: white;
+      padding: 18px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand { font-size: 22px; font-weight: 850; letter-spacing: 1px; }
+    .brand span { color: var(--gold); }
+    .tagline { font-size: 12px; color: #cbd5e8; margin-top: 3px; }
+    .hero {
+      background: linear-gradient(135deg, #101b35, #203d77);
+      color: white;
+      padding: 48px 6% 54px;
+    }
+    .hero h1 {
+      font-size: clamp(30px, 6vw, 48px);
+      line-height: 1.15;
+      margin: 12px 0;
+      max-width: 600px;
+    }
+    .hero p { color: #d5def2; max-width: 520px; line-height: 1.8; }
+    .eyebrow {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+    .layout {
+      max-width: 1000px;
+      margin: -25px auto 40px;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 12px 32px #14264b0b;
+    }
+    h2 { font-size: 22px; margin: 0 0 8px; }
+    .sub { color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .tabs { display: flex; gap: 8px; margin: 20px 0; }
+    .tab {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: white;
+      color: var(--text);
+      font-weight: 700;
+    }
+    .tab.active { background: var(--navy); color: white; }
+    label { display: block; font-size: 13px; font-weight: 700; margin: 14px 0 6px; }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d9e0ed;
+      border-radius: 9px;
+      background: #fff;
+      color: var(--text);
+      outline-color: var(--blue);
+    }
+    .primary {
+      width: 100%;
+      padding: 13px;
+      margin-top: 18px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--blue);
+      color: white;
+      font-weight: 800;
+    }
+    .primary:disabled { opacity: .6; cursor: wait; }
+    .notice {
+      display: none;
+      padding: 12px;
+      margin-top: 14px;
+      border-radius: 9px;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+    .notice.show { display: block; }
+    .notice.error { background: #fff0f0; color: #a32626; }
+    .notice.ok { background: #eaf8ef; color: #17683a; }
+    .feature {
+      padding: 16px 0;
+      border-bottom: 1px solid #ffffff20;
+    }
+    .feature:last-child { border-bottom: 0; }
+    .feature strong { display: block; margin-bottom: 5px; }
+    .feature span { color: #d5def2; font-size: 13px; line-height: 1.7; }
+    .section { max-width: 1000px; margin: 28px auto; padding: 0 16px; }
+    .section h2 { margin-bottom: 16px; }
+    .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .tile {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 17px;
+    }
+    .tile strong { display: block; margin-bottom: 6px; }
+    .tile span { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .profile-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+    .avatar {
+      width: 54px; height: 54px; border-radius: 50%;
+      background: #e6ecff; color: var(--blue);
+      display: grid; place-items: center; font-size: 23px; font-weight: 800;
+    }
+    .hidden { display: none !important; }
+    footer {
+      background: var(--navy); color: #cbd5e8;
+      padding: 25px 6%; text-align: center; font-size: 13px; line-height: 2;
+    }
+    footer a { color: var(--gold); margin: 0 8px; }
+    @media (max-width: 700px) {
+      .layout { grid-template-columns: 1fr; margin-top: -20px; }
+      .hero { padding-top: 38px; }
+      .tiles { grid-template-columns: 1fr; }
+      .card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="brand">DAKAT <span>SIR</span></div>
+      <div class="tagline">LEARN · PRACTICE · ACHIEVE</div>
+    </div>
+    <div style="font-size:12px;color:#d5def2">Student Learning Platform</div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">YOUR FUTURE STARTS HERE</div>
+    <h1>Learn Beyond Limits.</h1>
+    <p>শেখো, অনুশীলন করো এবং নিজের লক্ষ্যের দিকে এগিয়ে যাও। পড়াশোনা ও পরীক্ষার প্রস্তুতির জন্য তোমার নিজস্ব শিক্ষাঙ্গন।</p>
+  </section>
+
+  <main>
+    <section id="authArea" class="layout">
+      <div class="card">
+        <h2 id="formTitle">Welcome Back!</h2>
+        <div class="sub" id="formSubtitle">তোমার অ্যাকাউন্টে প্রবেশ করো।</div>
+
+        <div class="tabs">
+          <button type="button" class="tab active" id="loginTab">Login</button>
+          <button type="button" class="tab" id="signupTab">Registration</button>
+        </div>
+
+        <form id="authForm">
+          <div id="signupFields" class="hidden">
+            <label for="fullName">শিক্ষার্থীর পূর্ণ নাম</label>
+            <input id="fullName" autocomplete="name" maxlength="100" placeholder="তোমার নাম">
+
+            <label for="institution">স্কুল / কলেজ</label>
+            <input id="institution" maxlength="150" placeholder="প্রতিষ্ঠানের নাম">
+
+            <label for="educationLevel">শ্রেণি / শিক্ষার স্তর</label>
+            <select id="educationLevel">
+              <option value="">নির্বাচন করো</option>
+              <option>Class 6</option><option>Class 7</option>
+              <option>Class 8</option><option>Class 9</option>
+              <option>Class 10</option><option>SSC</option>
+              <option>Class 11</option><option>Class 12</option>
+              <option>HSC</option><option>Admission</option>
+              <option>Other</option>
+            </select>
+
+            <label for="groupName">বিভাগ</label>
+            <select id="groupName">
+              <option value="">নির্বাচন করো</option>
+              <option>Science</option><option>Arts</option>
+              <option>Commerce</option><option>Others</option>
+            </select>
+          </div>
+
+          <label for="email">Email Address</label>
+          <input id="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">
+
+          <label for="password">Password</label>
+          <input id="password" type="password" autocomplete="current-password" required minlength="8" placeholder="কমপক্ষে ৮ অক্ষর">
+
+          <button class="primary" id="submitBtn" type="submit">Login</button>
+          <div id="authMessage" class="notice" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <div class="card" style="background:var(--navy);color:white;border:0">
+        <div class="eyebrow">WHY DAKAT SIR?</div>
+        <h2 style="margin-top:12px">একসঙ্গে শিখি, এগিয়ে যাই।</h2>
+        <div class="feature">
+          <strong>📚 Class-wise Learning</strong>
+          <span>শ্রেণি ও বিষয়ভিত্তিক শেখার পরিবেশ।</span>
+        </div>
+        <div class="feature">
+          <strong>✍️ Practice & Exams</strong>
+          <span>MCQ অনুশীলন ও পরীক্ষার প্রস্তুতির জন্য পরিকল্পিত ব্যবস্থা।</span>
+        </div>
+        <div class="feature">
+          <strong>🎯 Admission Preparation</strong>
+          <span>ভর্তি পরীক্ষার প্রস্তুতির জন্য আলাদা বিভাগ তৈরির পরিকল্পনা।</span>
+        </div>
+        <div class="feature">
+          <strong>👤 Student Profile</strong>
+          <span>নিজস্ব অ্যাকাউন্ট ও শিক্ষাগত তথ্য সংরক্ষণের ব্যবস্থা।</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard" class="section hidden">
+      <div class="card">
+        <div class="profile-head">
+          <div class="avatar" id="avatar">D</div>
+          <div style="flex:1;min-width:0">
+            <h2 id="welcomeName">Student Dashboard</h2>
+            <div class="sub" id="studentEmail"></div>
+          </div>
+          <button type="button" id="logoutBtn" class="tab">Logout</button>
+        </div>
+
+        <div id="profileMessage" class="notice" role="status" aria-live="polite"></div>
+        <form id="profileForm">
+          <label for="profileName">পূর্ণ নাম</label>
+          <input id="profileName" maxlength="100" required>
+
+          <label for="profileInstitution">স্কুল / কলেজ</label>
+          <input id="profileInstitution" maxlength="150">
+
+          <label for="profileLevel">শ্রেণি / শিক্ষার স্তর</label>
+          <select id="profileLevel">
+            <option value="">নির্বাচন করো</option>
+            <option>Class 6</option><option>Class 7</option>
+            <option>Class 8</option><option>Class 9</option>
+            <option>Class 10</option><option>SSC</option>
+            <option>Class 11</option><option>Class 12</option>
+            <option>HSC</option><option>Admission</option>
+            <option>Other</option>
+          </select>
+
+          <label for="profileGroup">বিভাগ</label>
+          <select id="profileGroup">
+            <option value="">নির্বাচন করো</option>
+            <option>Science</option><option>Arts</option>
+            <option>Commerce</option><option>Others</option>
+          </select>
+
+          <button class="primary" id="saveProfileBtn" type="submit">Save Profile</button>
+        </form>
+      </div>
+
+      <div class="section" style="padding:0;margin-top:22px">
+        <h2>তোমার Learning Space</h2>
+        <div class="tiles">
+          <div class="tile"><strong>📘 Classes</strong><span>শ্রেণিভিত্তিক পাঠ ও বিষয়।</span></div>
+          <div class="tile"><strong>📝 MCQ Exams</strong><span>পরীক্ষা ও ফলাফল ব্যবস্থা পরবর্তী ধাপে যোগ হবে।</span></div>
+          <div class="tile"><strong>🚀 Extra Care</strong><span>অলিম্পিয়াড, প্রোগ্রামিং ও প্রযুক্তি।</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="learningSection">
+      <h2>Explore DAKAT SIR</h2>
+      <div class="tiles">
+        <div class="tile"><strong>📐 Mathematics</strong><span>ধারণা, অনুশীলন ও সমস্যা সমাধান।</span></div>
+        <div class="tile"><strong>⚡ Physics</strong><span>বিজ্ঞান ও বাস্তব জগতের ধারণা।</span></div>
+        <div class="tile"><strong>🧪 Chemistry & ICT</strong><span>বিষয়ভিত্তিক শিক্ষার পরিকল্পনা।</span></div>
+      </div>
+      <p class="sub">এগুলো প্রাথমিক পরিচিতিমূলক বিভাগ। পাঠ, প্রশ্ন ও পরীক্ষা এখনো যোগ করা হয়নি।</p>
+    </section>
+  </main>
+
+  <footer>
+    <div>© 2026 DAKAT SIR · Learn Beyond Limits</div>
+    <a href="https://www.facebook.com/DakatSir10" target="_blank" rel="noopener noreferrer">Facebook</a>
+    <a href="https://youtube.com/channel/UCjvXTW3qG91V7-LVdoxUcsg" target="_blank" rel="noopener noreferrer">YouTube</a>
+  </footer>
+
+  <script>
+    // Replace these two values with your own Supabase project details.
+    const SUPABASE_URL = "https://ixtbkyipwnpgwgmnuhxd.supabase.co/rest/v1/";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_secret_Za2-7gnpaIk23upYtd9JzA_m1Qsnfzc";
+
+    const authArea = document.getElementById("authArea");
+    const dashboard = document.getElementById("dashboard");
+    const learningSection = document.getElementById("learningSection");
+    const authMessage = document.getElementById("authMessage");
+    const profileMessage = document.getElementById("profileMessage");
+    const submitBtn = document.getElementById("submitBtn");
+    let isSignup = false;
+    let supabase = null;
+    let currentUser = null;
+
+    function showMessage(element, message, isError = false) {
+      element.textContent = message;
+      element.className = "notice show " + (isError ? "error" : "ok");
+    }
+
+    function clearMessage(element) {
+      element.textContent = "";
+      element.className = "notice";
+    }
+
+    function switchMode(signup) {
+      isSignup = signup;
+      document.getElementById("signupFields").classList.toggle("hidden", !signup);
+      document.getElementById("loginTab").classList.toggle("active", !signup);
+      document.getElementById("signupTab").classList.toggle("active", signup);
+      document.getElementById("formTitle").textContent = signup ? "Create Account" : "Welcome Back!";
+      document.getElementById("formSubtitle").textContent =
+        signup ? "নতুন শিক্ষার্থী অ্যাকাউন্ট তৈরি করো।" : "তোমার অ্যাকাউন্টে প্রবেশ করো।";
+      submitBtn.textContent = signup ? "Create Account" : "Login";
+      document.getElementById("password").autocomplete = signup ? "new-password" : "current-password";
+      document.getElementById("fullName").required = signup;
+      document.getElementById("institution").required = signup;
+      document.getElementById("educationLevel").required = signup;
+      document.getElementById("groupName").required = signup;
+      clearMessage(authMessage);
+    }
+
+    document.getElementById("loginTab").addEventListener("click", () => switchMode(false));
+    document.getElementById("signupTab").addEventListener("click", () => switchMode(true));
+
+    function showSignedOut() {
+      currentUser = null;
+      authArea.classList.remove("hidden");
+      dashboard.classList.add("hidden");
+      learningSection.classList.remove("hidden");
+    }
+
+    async function loadProfile(user) {
+      currentUser = user;
+      authArea.classList.add("hidden");
+      dashboard.classList.remove("hidden");
+      learningSection.classList.add("hidden");
+      clearMessage(profileMessage);
+      document.getElementById("studentEmail").textContent = user.email || "";
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("full_name,institution,education_level,group_name")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (error) {
+        showMessage(profileMessage, "প্রোফাইল লোড হয়নি। আবার চেষ্টা করো। " + error.message, true);
+        return;
+      }
+
+      const profile = data || {};
+      document.getElementById("profileName").value = profile.full_name || user.user_metadata?.full_name || "";
+      document.getElementById("profileInstitution").value = profile.institution || user.user_metadata?.institution || "";
+      document.getElementById("profileLevel").value = profile.education_level || user.user_metadata?.education_level || "";
+      document.getElementById("profileGroup").value = profile.group_name || user.user_metadata?.group_name || "";
+      updateProfileHeading();
+    }
+
+    function updateProfileHeading() {
+      const name = document.getElementById("profileName").value.trim() || "Student";
+      document.getElementById("welcomeName").textContent = "Welcome, " + name + "!";
+      document.getElementById("avatar").textContent = name.charAt(0).toUpperCase();
+    }
+
+    async function init() {
+      if (
+        SUPABASE_URL.includes("PASTE_") ||
+        SUPABASE_PUBLISHABLE_KEY.includes("PASTE_") ||
+        !window.supabase
+      ) {
+        submitBtn.disabled = true;
+        showMessage(authMessage, "প্রথমে কোডে তোমার Supabase Project URL ও Publishable Key বসিয়ে Save করতে হবে।", true);
+        return;
+      }
+
+      try {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+        const { data, error } = await supabase.auth.getSession();
+        if (error) throw error;
+        if (data.session) {
+          await loadProfile(data.session.user);
+        }
+
+        supabase.auth.onAuthStateChange((event, session) => {
+          if (event === "SIGNED_OUT" || !session) {
+            showSignedOut();
+          } else if (event === "SIGNED_IN" || event === "USER_UPDATED") {
+            // Defer database work outside the auth callback.
+            setTimeout(() => loadProfile(session.user), 0);
+          }
+        });
+      } catch (error) {
+        showMessage(authMessage, "Supabase সংযোগে সমস্যা হয়েছে। URL ও Key যাচাই করো।", true);
+      }
+    }
+
+    document.getElementById("authForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage(authMessage);
+
+      if (!supabase) {
+        showMessage(authMessage, "Supabase সংযোগ প্রস্তুত নয়। URL ও Publishable Key বসাও।", true);
+        return;
+      }
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Please wait...";
+
+      try {
+        if (isSignup) {
+          const fullName = document.getElementById("fullName").value.trim();
+          const institution = document.getElementById("institution").value.trim();
+          const educationLevel = document.getElementById("educationLevel").value;
+          const groupName = document.getElementById("groupName").value;
+
+          const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: {
+                full_name: fullName,
+                institution,
+                education_level: educationLevel,
+                group_name: groupName
+              }
+            }
+          });
+          if (error) throw error;
+
+          if (data.session) {
+            await loadProfile(data.user);
+            showMessage(profileMessage, "অ্যাকাউন্ট তৈরি হয়েছে। প্রোফাইল সেভ করে নাও।");
+          } else {
+            showMessage(authMessage, "Registration অনুরোধ গ্রহণ করা হয়েছে। ইমেইলে আসা confirmation link খুলে অ্যাকাউন্ট যাচাই করো, তারপর Login করো।");
+          }
+        } else {
+          const { error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          showMessage(authMessage, "Login সফল।");
+        }
+      } catch (error) {
+        showMessage(authMessage, error.message || "অনুরোধটি সম্পন্ন হয়নি। তথ্য যাচাই করে আবার চেষ্টা করো।", true);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = isSignup ? "Create Account" : "Login";
+      }
+    });
+
+    document.getElementById("profileForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage(profileMessage);
+      if (!supabase || !currentUser) {
+        showMessage(profileMessage, "প্রথমে Login করো।", true);
+        return;
+      }
+
+      const saveBtn = document.getElementById("saveProfileBtn");
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Saving...";
+
+      try {
+        const profile = {
+          id: currentUser.id,
+          full_name: document.getElementById("profileName").value.trim(),
+          institution: document.getElementById("profileInstitution").value.trim(),
+          education_level: document.getElementById("profileLevel").value,
+          group_name: document.getElementById("profileGroup").value,
+          updated_at: new Date().toISOString()
+        };
+
+        const { data: existing, error: readError } = await supabase
+          .from("profiles").select("id").eq("id", currentUser.id).maybeSingle();
+        if (readError) throw readError;
+
+        let result;
+        if (existing) {
+          result = await supabase.from("profiles").update(profile).eq("id", currentUser.id);
+        } else {
+          result = await supabase.from("profiles").insert(profile);
+        }
+        if (result.error) throw result.error;
+
+        updateProfileHeading();
+        showMessage(profileMessage, "তোমার Profile সফলভাবে সংরক্ষণ হয়েছে।");
+      } catch (error) {
+        showMessage(profileMessage, "Profile সংরক্ষণ হয়নি। আবার চেষ্টা করো। " + error.message, tru
